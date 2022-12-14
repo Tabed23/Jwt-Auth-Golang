@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      -   ${PWD}/data:/data/db
+    networks:
+      - auth-network
+
+  person-service:
+    depends_on:
+    - mongo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - 8080:8080
+    networks:
+      - auth-network
+
+
+volumes:
+  mongodb_data:
+
+networks:
+    auth-network:
